@@ -3,44 +3,42 @@ package ru.netology.hibernate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import ru.netology.hibernate.entity.Bio;
+import ru.netology.hibernate.entity.Person;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class PersonsRepository {
+
     @PersistenceContext
     private EntityManager entityManager;
-    private final List<Persons> people = new ArrayList<>();
+
+    private final List<Bio> bios = new ArrayList<>();
+    private final List<Person> persons = new ArrayList<>();
 
     public PersonsRepository() {
-        for (int i = 0; i < 10; i++) {
-            List<String> cities = Arrays.asList("Moscow", "Saint-Petersburg", "Ekaterinburg", "Kazan", "Kirov");
-            List<String> names = Arrays.asList("Ivan", "Fyodor", "Pavel", "Stepan");
-            List<String> surnames = Arrays.asList("Ivanov", "Fyodorov", "Pavlov", "Stepanov");
-            List<String> phones = Arrays.asList("+1111", "+2222", "+3333", "+4444");
-            this.addPerson(
-                    names.get(getRandomInt(4)),
-                    surnames.get(getRandomInt(4)),
-                    getRandomInt(100),
-                    phones.get(getRandomInt(4)),
-                    cities.get(getRandomInt(4))
-                    );
-        }
+        createDataBase();
     }
 
-    private int getRandomInt(int i) {
-        return (int) (Math.random() * i);
+    private void createDataBase() {
+        bios.add(Bio.builder().name("Ivan").surname("Ivanov").age(17).build());
+        bios.add(Bio.builder().name("Fyodor").surname("Fyodorov").age(27).build());
+        bios.add(Bio.builder().name("Pavel").surname("Pavlov").age(37).build());
+        bios.add(Bio.builder().name("Stepan").surname("Stepanov").age(47).build());
+
+        persons.add(Person.builder().bio(bios.get(0)).phone_number("1111").city_of_living("Moscow").build());
+        persons.add(Person.builder().bio(bios.get(1)).phone_number("2222").city_of_living("Saint-Petersburg").build());
+        persons.add(Person.builder().bio(bios.get(2)).phone_number("3333").city_of_living("Ekaterinburg").build());
+        persons.add(Person.builder().bio(bios.get(3)).phone_number("4444").city_of_living("Kazan").build());
+
+        persons.forEach(entityManager::persist);
     }
 
-    public void addPerson(String name, String surname, int age, String phone_number, String city_of_living) {
-        Bio bio = new Bio(name, surname, age);
-        Persons person = new Persons(bio, phone_number, city_of_living);
-        this.people.add(person);
-    }
-
-    public List<Persons> getPersonsByCity(String city) {
-        return this.people.stream().filter(person -> person.getCity_of_living().equals(city)).toList();
+    public List getPersonsByCity(String city) {
+        persons.forEach(entityManager::persist);
+        return entityManager.createQuery("SELECT p FROM Persons AS p WHERE p.city_of_living = :city")
+                .setParameter(city, city.toLowerCase())
+                .getResultList();
     }
 }

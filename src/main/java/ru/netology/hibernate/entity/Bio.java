@@ -1,14 +1,16 @@
-package ru.netology.hibernate;
+package ru.netology.hibernate.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Embeddable
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

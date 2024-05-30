@@ -1,16 +1,16 @@
-package ru.netology.hibernate;
+package ru.netology.hibernate.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import lombok.*;
 
-@Entity
+@Entity(name = "Persons")
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Persons {
+public class Person {
     @EmbeddedId
     private Bio bio;
 
