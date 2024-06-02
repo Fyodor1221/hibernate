@@ -19,10 +19,4 @@ public class Person {
 
     @Column(nullable = false, length = 100)
     private String city_of_living;
-
-    @Override
-    public String toString() {
-        return bio + phone_number + ", " + city_of_living;
-    }
 }
-

@@ -1,6 +1,5 @@
 package ru.netology.hibernate;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +14,6 @@ public class PersonsController {
 
     @GetMapping("/persons/by-city")
     public List getPersons(@RequestParam("city") String city) {
-        repository.createDataBase();
         return repository.getPersonsByCity(city);
     }
 }
