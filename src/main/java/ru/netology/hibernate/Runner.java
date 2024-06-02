@@ -5,18 +5,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.swing.*;
-
 @SpringBootApplication
-public class HibernateApplication implements CommandLineRunner {
+public class Runner implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(HibernateApplication.class);
+        SpringApplication application = new SpringApplication(Runner.class);
         application.run(args);
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void run(String... args) {
     }
 }

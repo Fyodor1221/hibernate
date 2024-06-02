@@ -15,6 +15,7 @@ public class PersonsController {
 
     @GetMapping("/persons/by-city")
     public List getPersons(@RequestParam("city") String city) {
+        repository.createDataBase();
         return repository.getPersonsByCity(city);
     }
 }
