@@ -20,18 +20,18 @@ public class PersonsController {
     }
 
     @PostMapping("/persons/save")
-    public void savePerson(
-            @RequestParam("name") String name,
-            @RequestParam("surname") String surname,
-            @RequestParam("age") String ageStr,
-            @RequestParam("city") String city,
-            @RequestParam("phone") String phone)
+    public Person savePerson(
+            @RequestBody String name,
+            @RequestBody String surname,
+            @RequestBody String age,
+            @RequestBody String city,
+            @RequestBody String phone)
     {
-        int age = Integer.parseInt(ageStr);
-        Bio bio = new Bio(name, surname, age);
-        Person person = new Person(bio, phone, city);
-
-        customizedPersonsJpaRepository.save(person);
+        Person person = new Person(
+                new Bio(name, surname, Integer.parseInt(age)),
+                phone,
+                city);
+        return customizedPersonsJpaRepository.save(person);
     }
 
     @GetMapping("/persons/all")
