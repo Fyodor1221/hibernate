@@ -23,9 +23,4 @@ public class Bio implements Serializable {
 
     @Column(nullable = false)
     private int age;
-
-    @Override
-    public String toString() {
-        return name + ", " + surname + ", " + age + ", ";
-    }
 }
