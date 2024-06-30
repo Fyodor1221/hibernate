@@ -2,29 +2,32 @@ package ru.netology.hibernate.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.formLogin(Customizer.withDefaults())
-                .authorizeHttpRequests(authz -> authz.requestMatchers("/persons/all").permitAll())
-                .authorizeHttpRequests(authz -> authz.anyRequest().authenticated());
-        return http.build();
-    }
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
+        UserDetails user1 = User.withDefaultPasswordEncoder()
                 .username("Fyodor")
                 .password("111")
+                .roles("READ", "WRITE", "DELETE")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+        UserDetails user2 = User.withDefaultPasswordEncoder()
+                .username("Ivan")
+                .password("222")
+                .roles("READ", "WRITE")
+                .build();
+        UserDetails user3 = User.withDefaultPasswordEncoder()
+                .username("Pavel")
+                .password("333")
+                .roles("READ")
+                .build();
+        return new InMemoryUserDetailsManager(user1, user2, user3);
     }
 }

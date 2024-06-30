@@ -18,4 +18,7 @@ public interface CustomizedPersonsJpaRepository extends JpaRepository<Person, Lo
 
     @Query("select p from Persons  p where p.bio.name = :name and p.bio.surname = :surname")
     Optional<Person> findByBio_NameAndBio_Surname (String name, String surname);
+
+    @Query("delete from Persons p where p.bio.name = :name and p.bio.surname = :surname and p.bio.age = :age")
+    void deleteByBio_NameAndBio_SurnameAndBio_Age (String name, String surname, int age);
 }
